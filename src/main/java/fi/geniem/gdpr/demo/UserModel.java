@@ -3,14 +3,14 @@ package fi.geniem.gdpr.demo;
 import fi.geniem.gdpr.personaldataflow.PersonalData;
 
 @PersonalData
-public class PersonalDataModel {
+public class UserModel {
 
 	private String name;
 	
 	private String identityNumber;
 	
-	public int foo = 0;
-	
+	public UserModel innerUser;
+		
 	public String getName() {
 		return name;
 	}
