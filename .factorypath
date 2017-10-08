@@ -1,4 +1,0 @@
-<factorypath>
-    <factorypathentry kind="PLUGIN" id="org.eclipse.jst.ws.annotations.core" enabled="true" runInBatchMode="false"/>
-    <factorypathentry kind="EXTJAR" id="C:\Users\kallehj\.m2\repository\fi\geniem\gdpr\personaldataflow\0.0.1-SNAPSHOT3\personaldataflow-0.0.1-SNAPSHOT3.jar" enabled="false" runInBatchMode="false"/>
-</factorypath>
