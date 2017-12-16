@@ -5,6 +5,9 @@ import fi.geniem.gdpr.demo.subjects.ServiceWithoutPersonalDataHandler;
 import fi.geniem.gdpr.demo.subjects.UserModel;
 import fi.geniem.gdpr.personaldataflow.PersonalDataHandler;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This class produces warnings for different cases of
  * @PersonalData method calls
@@ -18,6 +21,8 @@ public class MethodsDemo {
     @PersonalDataHandler
     public void demoMethodCallWarnings(){
         UserModel model = new UserModel();
+        UserModel[] model2 = new UserModel[]{};
+        List<UserModel> model3 = new ArrayList<UserModel>();
 
         /*
          *  No warnings for method calls below:
@@ -26,12 +31,17 @@ public class MethodsDemo {
         new ServiceWithPersonalDataHandler().methodWithNoAnnotations(model);
         new ServiceWithoutPersonalDataHandler().methodWithHandlerAnnotation(model);
         new ServiceWithoutPersonalDataHandler().methodWithEndpointAnnotation(model);
+        new ServiceWithoutPersonalDataHandler().methodWithEndpointAnnotation(null);
 
         /*
          *  All of these should warn:
          */
         methodWithNoAnnotations(model);
-        methodWithNoAnnotations(new UserModel());// <-TODO
+        methodWithNoAnnotations(model2);
+        methodWithNoAnnotations(model3);
+        methodWithNoAnnotations(new UserModel());
+        methodWithNoAnnotations(new ArrayList<UserModel>());
+        methodWithNoAnnotations(new UserModel[]{});
         new ServiceWithoutPersonalDataHandler().methodWithNoAnnotations(model);
     }
 

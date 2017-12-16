@@ -26,5 +26,8 @@ public class UserModel {
 	public void setIdentityNumber(String identityNumber) {
 		this.identityNumber = identityNumber;
 	}
-	
+
+	public void processPersonalData(){
+
+	};
 }

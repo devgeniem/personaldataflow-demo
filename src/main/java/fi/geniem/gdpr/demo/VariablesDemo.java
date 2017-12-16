@@ -1,6 +1,8 @@
 package fi.geniem.gdpr.demo;
 
 import fi.geniem.gdpr.demo.subjects.ExtendedUserModel;
+import fi.geniem.gdpr.demo.subjects.InterfaceImpl;
+import fi.geniem.gdpr.demo.subjects.InterfaceWithPersonalData;
 import fi.geniem.gdpr.demo.subjects.UserModel;
 import fi.geniem.gdpr.personaldataflow.PersonalData;
 import fi.geniem.gdpr.personaldataflow.PersonalDataEndpoint;
@@ -15,10 +17,14 @@ import java.util.List;
  */
 public class VariablesDemo {
 
+    /*
+     * Static variables get warnings (no @PersonalDataHandler on class)
+     */
     @PersonalData
     public static final String ANNOTATION_ON_VALUE = "demo";
-
     public static final UserModel VALUE_WITH_PERSONALDATA_CLASS = new UserModel();
+    public static final List<UserModel> VALUE_WITH_PERSONALDATA_LIST = new ArrayList<UserModel>();
+    public static final UserModel[] VALUE_WITH_PERSONALDATA_ARRAY = new UserModel[]{};
 
     public static final String NO_WARNING = "demo";
 
@@ -27,15 +33,19 @@ public class VariablesDemo {
      */
     public void methodWithoutHandlerAnnotation(){
         UserModel model = new UserModel();
-        Object genericType = new UserModel();// <-TODO
-        ExtendedUserModel extendingPersonalData = new ExtendedUserModel();// <-TODO
-        UserModel[] array = new UserModel[]{};// <-TODO
-        List<UserModel> list = new ArrayList<UserModel>();// <-TODO
-        ((UserModel) model).getIdentityNumber();// <-TODO
+        Object genericType = new UserModel();
+        ExtendedUserModel extendingPersonalData = new ExtendedUserModel();
+        ExtendedUserModel[] extendingPersonalDataArray = new ExtendedUserModel[]{};
+        UserModel[] array = new UserModel[]{};
+        List<UserModel> list = new ArrayList<>();
+        ((UserModel) genericType).processPersonalData();
+
+        //no warning: annotations are not inherited from interfaces
+        InterfaceImpl implementsPersonalDataInterface = new InterfaceImpl();
     }
 
     /**
-     * @PersonalDataEndpoint should warn if it actually knows the types
+     * @PersonalDataEndpoint should warn if it actually uses the types
      */
     @PersonalDataEndpoint
     public void methodWithEndpointAnnotation(){
@@ -44,7 +54,10 @@ public class VariablesDemo {
         ExtendedUserModel extendingPersonalData = new ExtendedUserModel();
         UserModel[] array = new UserModel[]{};
         List<UserModel> list = new ArrayList<UserModel>();
-        ((UserModel) model).getIdentityNumber();
+        ((UserModel) genericType).processPersonalData();
+
+        //no warning
+        InterfaceImpl implementsPersonalDataInterface = new InterfaceImpl();
     }
 
     /**
@@ -56,8 +69,8 @@ public class VariablesDemo {
         Object genericType = new UserModel();
         ExtendedUserModel extendingPersonalData = new ExtendedUserModel();
         UserModel[] array = new UserModel[]{};
-        List<UserModel> list = new ArrayList<UserModel>();
-        ((UserModel) model).getIdentityNumber();
+        List<UserModel> list = new ArrayList<>();
+        ((UserModel) genericType).processPersonalData();
     }
 
     @PersonalDataHandler
@@ -70,10 +83,10 @@ public class VariablesDemo {
             UserModel model = new UserModel();
             Object genericType = new UserModel();
             ExtendedUserModel extendingPersonalData = new ExtendedUserModel();
+            InterfaceImpl implementsPersonalDataInterface = new InterfaceImpl();
             UserModel[] array = new UserModel[]{};
             List<UserModel> list = new ArrayList<UserModel>();
-            ((UserModel) model).getIdentityNumber();
+            ((UserModel) genericType).processPersonalData();
         }
-
     }
 }

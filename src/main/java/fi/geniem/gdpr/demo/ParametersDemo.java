@@ -3,15 +3,28 @@ package fi.geniem.gdpr.demo;
 import fi.geniem.gdpr.demo.subjects.UserModel;
 import fi.geniem.gdpr.personaldataflow.PersonalDataEndpoint;
 import fi.geniem.gdpr.personaldataflow.PersonalDataHandler;
+import java.util.List;
 
-/**
- * TODO
- */
 public class ParametersDemo {
 
     // This will warn.
     public void methodWithNoAnnotations(UserModel model, String okParam){
         model.getIdentityNumber();
+    }
+
+    // This will warn.
+    public void methodWithNoAnnotations2(List<UserModel> models){
+
+    }
+
+    // This will warn.
+    @PersonalDataEndpoint
+    public void methodWithEndpoint(UserModel model){
+        model.getIdentityNumber();
+    }
+
+    // This will warn.
+    public void methodWithNoAnnotations3(UserModel[] models, String okParam){
     }
 
     // This is fine.
@@ -26,12 +39,6 @@ public class ParametersDemo {
         public void methodWithNoAnnotations(UserModel model){
             model.getIdentityNumber();
         }
-    }
-
-    // This will warn.
-    @PersonalDataEndpoint
-    public void methodWithEndpoint(UserModel model){
-        model.getIdentityNumber();
     }
 
 }
